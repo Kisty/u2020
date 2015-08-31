@@ -1,9 +1,9 @@
 package com.jakewharton.u2020.ui;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.jakewharton.u2020.R;
+import com.jakewharton.u2020.dagger.PerApp;
 import com.jakewharton.u2020.data.LumberYard;
 import com.jakewharton.u2020.data.prefs.BooleanPreference;
 import com.jakewharton.u2020.ui.bugreport.BugReportLens;
@@ -20,9 +21,8 @@ import com.mattprecious.telescope.Lens;
 import com.mattprecious.telescope.TelescopeLayout;
 import java.io.File;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
+@PerApp
 public final class TelescopeAppContainer implements AppContainer {
   private final LumberYard lumberYard;
   private final BooleanPreference seenTelescopeDialog;

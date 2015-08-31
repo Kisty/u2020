@@ -1,17 +1,17 @@
 package com.jakewharton.u2020.ui;
 
+import com.jakewharton.u2020.dagger.PerApp;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
-@Module(
-    overrides = true,
-    library = true,
-    complete = false
-)
+@Module
 public final class InternalReleaseUiModule {
-  @Provides @Singleton AppContainer provideAppContainer(
+  @Provides @PerApp AppContainer provideAppContainer(
       TelescopeAppContainer telescopeAppContainer) {
     return telescopeAppContainer;
+  }
+
+  @Provides @PerApp ActivityHierarchyServer provideActivityHierarchyServer() {
+    return ActivityHierarchyServer.NONE;
   }
 }
