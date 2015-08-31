@@ -115,8 +115,8 @@ dependencies {
   compile 'com.android.support:recyclerview-v7:23.0.0'
   compile 'com.android.support:design:23.0.0'
 
-  compile 'com.squareup.dagger:dagger:1.2.2'
-  apt 'com.squareup.dagger:dagger-compiler:1.2.2'
+  compile 'com.google.dagger:dagger:2.0.1'
+  apt 'com.google.dagger:dagger-compiler:2.0.1'
 
   compile 'com.squareup.okhttp:okhttp:2.4.0'
   compile 'com.squareup.picasso:picasso:2.5.2'
