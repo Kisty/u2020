@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -32,6 +32,7 @@ import com.jakewharton.u2020.data.api.Sort;
 import com.jakewharton.u2020.data.api.model.RepositoriesResponse;
 import com.jakewharton.u2020.data.api.model.Repository;
 import com.jakewharton.u2020.data.api.transforms.SearchResultToRepositoryList;
+import com.jakewharton.u2020.ui.MainActivityComponent;
 import com.jakewharton.u2020.ui.misc.BetterViewAnimator;
 import com.jakewharton.u2020.ui.misc.DividerItemDecoration;
 import com.jakewharton.u2020.ui.misc.EnumAdapter;
@@ -74,7 +75,7 @@ public final class TrendingView extends LinearLayout
   public TrendingView(Context context, AttributeSet attrs) {
     super(context, attrs);
     if (!isInEditMode()) {
-      Injector.obtain(context).inject(this);
+      Injector.obtain(context, MainActivityComponent.class).inject(this);
     }
 
     timespanSubject = PublishSubject.create();
@@ -95,7 +96,7 @@ public final class TrendingView extends LinearLayout
     toolbarView.setNavigationIcon(R.drawable.menu_icon);
     toolbarView.setNavigationOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
-        drawerLayout.openDrawer(Gravity.START);
+        drawerLayout.openDrawer(GravityCompat.START);
       }
     });
 

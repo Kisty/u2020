@@ -25,6 +25,7 @@ import butterknife.OnClick;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.jakewharton.u2020.BuildConfig;
 import com.jakewharton.u2020.R;
+import com.jakewharton.u2020.U2020AppComponent;
 import com.jakewharton.u2020.data.AnimationSpeed;
 import com.jakewharton.u2020.data.ApiEndpoint;
 import com.jakewharton.u2020.data.ApiEndpoints;
@@ -58,7 +59,6 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.StatsSnapshot;
 import java.lang.reflect.Method;
 import java.net.Proxy;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 import javax.inject.Inject;
@@ -156,7 +156,7 @@ public final class DebugView extends FrameLayout {
 
   public DebugView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    Injector.obtain(context).inject(this);
+    Injector.obtain(context.getApplicationContext(), U2020AppComponent.class).inject(this);
 
     // Inflate all of the controls and inject them.
     LayoutInflater.from(context).inflate(R.layout.debug_view_content, this);

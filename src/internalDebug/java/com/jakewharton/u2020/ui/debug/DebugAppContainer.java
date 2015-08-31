@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import com.jakewharton.madge.MadgeFrameLayout;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.jakewharton.u2020.R;
+import com.jakewharton.u2020.dagger.PerApp;
 import com.jakewharton.u2020.data.LumberYard;
 import com.jakewharton.u2020.data.PixelGridEnabled;
 import com.jakewharton.u2020.data.PixelRatioEnabled;
@@ -26,7 +27,6 @@ import com.jakewharton.u2020.ui.bugreport.BugReportLens;
 import com.jakewharton.u2020.util.EmptyActivityLifecycleCallbacks;
 import com.mattprecious.telescope.TelescopeLayout;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
@@ -41,7 +41,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
  * An {@link AppContainer} for debug builds which wrap the content view with a sliding drawer on
  * the right that holds all of the debug information and settings.
  */
-@Singleton
+@PerApp
 public final class DebugAppContainer implements AppContainer {
   private final LumberYard lumberYard;
   private final BooleanPreference seenDebugDrawer;

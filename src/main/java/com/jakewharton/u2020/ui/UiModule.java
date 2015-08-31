@@ -1,22 +1,16 @@
 package com.jakewharton.u2020.ui;
 
+import com.jakewharton.u2020.dagger.PerApp;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
-@Module(
-    injects = {
-        MainActivity.class,
-    },
-    complete = false,
-    library = true
-)
+@Module
 public final class UiModule {
-  @Provides @Singleton AppContainer provideAppContainer() {
+  @Provides @PerApp AppContainer provideAppContainer() {
     return AppContainer.DEFAULT;
   }
 
-  @Provides @Singleton ActivityHierarchyServer provideActivityHierarchyServer() {
+  @Provides @PerApp ActivityHierarchyServer provideActivityHierarchyServer() {
     return ActivityHierarchyServer.NONE;
   }
 }

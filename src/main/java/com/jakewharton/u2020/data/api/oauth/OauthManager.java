@@ -2,6 +2,7 @@ package com.jakewharton.u2020.data.api.oauth;
 
 import android.content.Intent;
 import android.net.Uri;
+import com.jakewharton.u2020.dagger.PerApp;
 import com.jakewharton.u2020.data.IntentFactory;
 import com.jakewharton.u2020.data.prefs.StringPreference;
 import com.squareup.moshi.Moshi;
@@ -12,10 +13,9 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import timber.log.Timber;
 
-@Singleton public final class OauthManager {
+@PerApp public final class OauthManager {
   private static final String CLIENT_ID = "5793abe5bcb6d90f0240";
   private static final String CLIENT_SECRET = "81a35659c60fc376629432a51fd81e5c66a8dace";
 

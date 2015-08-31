@@ -1,6 +1,7 @@
 package com.jakewharton.u2020.data.api;
 
 import android.content.SharedPreferences;
+import com.jakewharton.u2020.dagger.PerApp;
 import com.jakewharton.u2020.data.api.model.RepositoriesResponse;
 import com.jakewharton.u2020.data.api.model.Repository;
 import com.jakewharton.u2020.util.EnumPreferences;
@@ -8,13 +9,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import retrofit.Response;
 import retrofit.Result;
 import retrofit.http.Query;
 import rx.Observable;
 
-@Singleton
+@PerApp
 public final class MockGithubService implements GithubService {
   private final SharedPreferences preferences;
   private final Map<Class<? extends Enum<?>>, Enum<?>> responses = new LinkedHashMap<>();

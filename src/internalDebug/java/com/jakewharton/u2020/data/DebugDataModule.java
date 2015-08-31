@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import com.jakewharton.u2020.IsInstrumentationTest;
+import com.jakewharton.u2020.dagger.PerApp;
 import com.jakewharton.u2020.data.api.DebugApiModule;
 import com.jakewharton.u2020.data.api.oauth.AccessToken;
 import com.jakewharton.u2020.data.prefs.BooleanPreference;
@@ -19,7 +20,6 @@ import dagger.Module;
 import dagger.Provides;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import javax.inject.Singleton;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
@@ -28,12 +28,7 @@ import retrofit.mock.NetworkBehavior;
 import rx.Observable;
 import timber.log.Timber;
 
-@Module(
-    includes = DebugApiModule.class,
-    complete = false,
-    library = true,
-    overrides = true
-)
+@Module(includes = DebugApiModule.class)
 public final class DebugDataModule {
   private static final int DEFAULT_ANIMATION_SPEED = 1; // 1x (normal) speed.
   private static final boolean DEFAULT_PICASSO_DEBUGGING = false; // Debug indicators displayed
@@ -44,17 +39,17 @@ public final class DebugDataModule {
   private static final boolean DEFAULT_SEEN_DEBUG_DRAWER = false; // Show debug drawer first time.
   private static final boolean DEFAULT_CAPTURE_INTENTS = true; // Capture external intents.
 
-  @Provides @Singleton
+  @Provides @PerApp
   RxSharedPreferences provideRxSharedPreferences(SharedPreferences preferences) {
     return RxSharedPreferences.create(preferences);
   }
 
-  @Provides @Singleton IntentFactory provideIntentFactory(@IsMockMode boolean isMockMode,
+  @Provides @PerApp IntentFactory provideIntentFactory(@IsMockMode boolean isMockMode,
       @CaptureIntents BooleanPreference captureIntents) {
     return new DebugIntentFactory(IntentFactory.REAL, isMockMode, captureIntents);
   }
 
-  @Provides @Singleton OkHttpClient provideOkHttpClient(Application app,
+  @Provides @PerApp OkHttpClient provideOkHttpClient(Application app,
       NetworkProxyPreference networkProxy) {
     OkHttpClient client = DataModule.createOkHttpClient(app);
     client.setSslSocketFactory(createBadSslSocketFactory());
@@ -62,107 +57,107 @@ public final class DebugDataModule {
     return client;
   }
 
-  @Provides @Singleton @AccessToken StringPreference provideAccessToken(SharedPreferences prefs,
+  @Provides @PerApp @AccessToken StringPreference provideAccessToken(SharedPreferences prefs,
       @ApiEndpoint StringPreference endpoint) {
     // Return an endpoint-specific preference.
     return new StringPreference(prefs, "access-token-" + endpoint.get());
   }
 
-  @Provides @Singleton @ApiEndpoint
+  @Provides @PerApp @ApiEndpoint
   StringPreference provideEndpointPreference(SharedPreferences preferences) {
     return new StringPreference(preferences, "debug_endpoint", ApiEndpoints.MOCK_MODE.url);
   }
 
-  @Provides @Singleton @IsMockMode boolean provideIsMockMode(@ApiEndpoint StringPreference endpoint,
+  @Provides @PerApp @IsMockMode boolean provideIsMockMode(@ApiEndpoint StringPreference endpoint,
       @IsInstrumentationTest boolean isInstrumentationTest) {
     // Running in an instrumentation forces mock mode.
     return isInstrumentationTest || ApiEndpoints.isMockMode(endpoint.get());
   }
 
-  @Provides @Singleton @NetworkDelay LongPreference provideNetworkDelay(
+  @Provides @PerApp @NetworkDelay LongPreference provideNetworkDelay(
       SharedPreferences preferences) {
     return new LongPreference(preferences, "debug_network_delay", 2000);
   }
 
-  @Provides @Singleton @NetworkFailurePercent IntPreference provideNetworkFailurePercent(
+  @Provides @PerApp @NetworkFailurePercent IntPreference provideNetworkFailurePercent(
       SharedPreferences preferences) {
     return new IntPreference(preferences, "debug_network_failure_percent", 3);
   }
 
-  @Provides @Singleton @NetworkVariancePercent IntPreference provideNetworkVariancePercent(
+  @Provides @PerApp @NetworkVariancePercent IntPreference provideNetworkVariancePercent(
       SharedPreferences preferences) {
     return new IntPreference(preferences, "debug_network_variance_percent", 40);
   }
 
-  @Provides @Singleton NetworkProxyPreference provideNetworkProxy(SharedPreferences preferences) {
+  @Provides @PerApp NetworkProxyPreference provideNetworkProxy(SharedPreferences preferences) {
     return new NetworkProxyPreference(preferences, "debug_network_proxy");
   }
 
-  @Provides @Singleton @CaptureIntents
+  @Provides @PerApp @CaptureIntents
   BooleanPreference provideCaptureIntentsPreference(SharedPreferences preferences) {
     return new BooleanPreference(preferences, "debug_capture_intents", DEFAULT_CAPTURE_INTENTS);
   }
 
-  @Provides @Singleton @AnimationSpeed
+  @Provides @PerApp @AnimationSpeed
   IntPreference provideAnimationSpeed(SharedPreferences preferences) {
     return new IntPreference(preferences, "debug_animation_speed", DEFAULT_ANIMATION_SPEED);
   }
 
-  @Provides @Singleton @PicassoDebugging
+  @Provides @PerApp @PicassoDebugging
   BooleanPreference providePicassoDebugging(SharedPreferences preferences) {
     return new BooleanPreference(preferences, "debug_picasso_debugging", DEFAULT_PICASSO_DEBUGGING);
   }
 
-  @Provides @Singleton @PixelGridEnabled
+  @Provides @PerApp @PixelGridEnabled
   BooleanPreference providePixelGridEnabled(SharedPreferences preferences) {
     return new BooleanPreference(preferences, "debug_pixel_grid_enabled",
         DEFAULT_PIXEL_GRID_ENABLED);
   }
 
-  @Provides @Singleton @PixelGridEnabled
+  @Provides @PerApp @PixelGridEnabled
   Observable<Boolean> provideObservablePixelGridEnabled(RxSharedPreferences preferences) {
     return preferences.getBoolean("debug_pixel_grid_enabled", DEFAULT_PIXEL_GRID_ENABLED);
   }
 
-  @Provides @Singleton @PixelRatioEnabled
+  @Provides @PerApp @PixelRatioEnabled
   BooleanPreference providePixelRatioEnabled(SharedPreferences preferences) {
     return new BooleanPreference(preferences, "debug_pixel_ratio_enabled",
         DEFAULT_PIXEL_RATIO_ENABLED);
   }
 
-  @Provides @Singleton @PixelRatioEnabled
+  @Provides @PerApp @PixelRatioEnabled
   Observable<Boolean> provideObservablePixelRatioEnabled(RxSharedPreferences preferences) {
     return preferences.getBoolean("debug_pixel_ratio_enabled", DEFAULT_PIXEL_RATIO_ENABLED);
   }
 
-  @Provides @Singleton @SeenDebugDrawer
+  @Provides @PerApp @SeenDebugDrawer
   BooleanPreference provideSeenDebugDrawer(SharedPreferences preferences) {
     return new BooleanPreference(preferences, "debug_seen_debug_drawer", DEFAULT_SEEN_DEBUG_DRAWER);
   }
 
-  @Provides @Singleton @ScalpelEnabled
+  @Provides @PerApp @ScalpelEnabled
   BooleanPreference provideScalpelEnabled(SharedPreferences preferences) {
     return new BooleanPreference(preferences, "debug_scalpel_enabled", DEFAULT_SCALPEL_ENABLED);
   }
 
-  @Provides @Singleton @ScalpelEnabled
+  @Provides @PerApp @ScalpelEnabled
   Observable<Boolean> provideObservableScalpelEnabled(RxSharedPreferences preferences) {
     return preferences.getBoolean("debug_scalpel_enabled", DEFAULT_SCALPEL_ENABLED);
   }
 
-  @Provides @Singleton @ScalpelWireframeEnabled
+  @Provides @PerApp @ScalpelWireframeEnabled
   BooleanPreference provideScalpelWireframeEnabled(SharedPreferences preferences) {
     return new BooleanPreference(preferences, "debug_scalpel_wireframe_drawer",
         DEFAULT_SCALPEL_WIREFRAME_ENABLED);
   }
 
-  @Provides @Singleton @ScalpelWireframeEnabled
+  @Provides @PerApp @ScalpelWireframeEnabled
   Observable<Boolean> provideObservableScalpelWireframeEnabled(RxSharedPreferences preferences) {
     return preferences.getBoolean("debug_scalpel_wireframe_drawer",
         DEFAULT_SCALPEL_WIREFRAME_ENABLED);
   }
 
-  @Provides @Singleton Picasso providePicasso(OkHttpClient client, NetworkBehavior behavior,
+  @Provides @PerApp Picasso providePicasso(OkHttpClient client, NetworkBehavior behavior,
       @IsMockMode boolean isMockMode, Application app) {
     Picasso.Builder builder = new Picasso.Builder(app).downloader(new OkHttpDownloader(client));
     if (isMockMode) {

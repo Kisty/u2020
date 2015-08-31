@@ -3,6 +3,7 @@ package com.jakewharton.u2020.data;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.jakewharton.u2020.dagger.PerApp;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import okio.BufferedSink;
 import okio.Okio;
 import org.threeten.bp.LocalDateTime;
@@ -21,7 +21,7 @@ import timber.log.Timber;
 
 import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-@Singleton
+@PerApp
 public final class LumberYard {
   private static final int BUFFER_SIZE = 200;
 

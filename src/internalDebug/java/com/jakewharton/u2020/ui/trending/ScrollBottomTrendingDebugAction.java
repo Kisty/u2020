@@ -1,10 +1,10 @@
 package com.jakewharton.u2020.ui.trending;
 
+import com.jakewharton.u2020.dagger.PerApp;
 import com.jakewharton.u2020.ui.debug.ContextualDebugActions.DebugAction;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton public final class ScrollBottomTrendingDebugAction extends DebugAction<TrendingView> {
+@PerApp public final class ScrollBottomTrendingDebugAction extends DebugAction<TrendingView> {
 
   @Inject public ScrollBottomTrendingDebugAction() {
     super(TrendingView.class);

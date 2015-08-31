@@ -10,7 +10,7 @@ import java.util.Set;
 
 import static dagger.Provides.Type.SET_VALUES;
 
-@Module(complete = false, library = true) public final class DebugActionsModule {
+@Module public final class DebugActionsModule {
   @Provides(type = SET_VALUES) Set<DebugAction> provideDebugActions(
       ScrollBottomTrendingDebugAction scrollBottomTrendingAction,
       ScrollTopTrendingDebugAction scrollTopTrendingAction) {

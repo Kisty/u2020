@@ -1,19 +1,11 @@
 package com.jakewharton.u2020.ui;
 
 import android.support.v4.widget.DrawerLayout;
-
-import com.jakewharton.u2020.U2020Module;
-import com.jakewharton.u2020.ui.trending.TrendingView;
-
-import javax.inject.Singleton;
-
+import com.jakewharton.u2020.dagger.PerActivity;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(
-    addsTo = U2020Module.class,
-    injects = TrendingView.class
-)
+@Module
 public final class MainActivityModule {
   private final MainActivity mainActivity;
 
@@ -21,7 +13,7 @@ public final class MainActivityModule {
     this.mainActivity = mainActivity;
   }
 
-  @Provides @Singleton DrawerLayout provideDrawerLayout() {
+  @Provides @PerActivity DrawerLayout provideDrawerLayout() {
     return mainActivity.drawerLayout;
   }
 }

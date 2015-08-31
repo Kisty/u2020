@@ -1,17 +1,17 @@
 package com.jakewharton.u2020.data.api;
 
+import com.jakewharton.u2020.dagger.PerApp;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.threeten.bp.Clock;
 import timber.log.Timber;
 
 /** Verbose logging of network calls, which includes path, headers, and times. */
-@Singleton
+@PerApp
 public final class LoggingInterceptor implements Interceptor {
   private final Clock clock;
 
